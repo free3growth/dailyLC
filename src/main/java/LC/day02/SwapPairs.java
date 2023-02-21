@@ -50,7 +50,7 @@ package LC.day02;
  */
 
 
-class swapPairs {
+class SwapPairs {
     class ListNode {
         int val;
         ListNode next;
