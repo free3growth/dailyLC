@@ -1,0 +1,51 @@
+/**
+给你一个整数数组 nums ，找出并返回所有该数组中不同的递增子序列，递增子序列中 至少有两个元素 。你可以按 任意顺序 返回答案。
+
+数组中可能含有重复元素，如出现两个整数相等，也可以视作递增序列的一种特殊情况。
+
+ 
+
+示例 1：
+
+输入：nums = [4,6,7,7]
+输出：[[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]
+示例 2：
+
+输入：nums = [4,4,3,2,1]
+输出：[[4,4]]
+ 
+
+提示：
+
+1 <= nums.length <= 15
+-100 <= nums[i] <= 100
+**/
+
+class Solution {
+    List<List<Integer>> res=new ArrayList<>();
+    List<Integer> temp=new ArrayList<>();
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        backtracking(nums,0);
+        return res;
+    }
+
+    public void backtracking(int[] nums,int startIndex){
+        if(temp.size()>1){
+            res.add(new ArrayList<>(temp));
+            //注意这里不要return
+        }
+        //局部 每次递归都新建
+        //因此 清理当前层状态时 无需回滚是否使用
+        boolean[] used=new boolean[201];
+        for(int i=startIndex;i<nums.length;i++){
+            //不满足递增
+            if(!temp.isEmpty() && nums[i]<temp.get(temp.size()-1)) continue;
+            //使用过
+            if(used[nums[i]+100]) continue;
+            temp.add(nums[i]);
+            used[nums[i]+100]=true;
+            backtracking(nums,i+1);
+            temp.remove(temp.size()-1);
+        }
+    }
+}
